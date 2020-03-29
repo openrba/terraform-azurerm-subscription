@@ -2,9 +2,6 @@
 Creates a subscription in Azure, uses a custom provider from
 [terraform-provider-restapi](https://github.com/Mastercard/terraform-provider-restapi)
 
-
-## Create a subscription in
-
 This Terraform module deploys a new subscription to the enrollment account as provided in the input.
 
 ## Example Usage
