@@ -1,19 +1,32 @@
-provider "restapi" {
-  uri                  = "https://management.azure.com"
-  write_returns_object = true
-}
+data "external" "lookupByName" {
+  # Looks up a subscription by its display name and returns id
+  program = ["scripts/lookupByName.sh"]
 
-data "restapi_object" "enrollment_accounts" {
-  path = "/providers/Microsoft.Billing/enrollmentAccounts"
-  query_string = "api-version=${var.api_version}"
-  search_key = "principalName"
-  search_value = "${var.principal_name}"
-}
-
-data "template_file" "subscription_json" {
-  template = "${file("subscription_json.tpl")}"
-  vars = {
-    offer_type = "${lookup(offer_type, var.subscription_type)}"
-    consul_address = "${aws_instance.consul.private_ip}"
+  query = {
+    subscription_name = var.subscription_name
   }
+}
+
+data "external" "createSubscription" {
+  # Creates a subscription by name and returns its id
+  count = length(data.external.lookupByName.result.id) > 0 ? 0 : 1
+  program = ["scripts/createSubscription.sh"]
+
+  query = {
+    offer_type = var.offer_type
+    subscription_name = var.subscription_name
+    enrollment_acct = var.enrollment_acct
+    owner_id = var.owner_id
+    subscription_name = var.subscription_name
+  }
+}
+
+resource "azurerm_management_group" "this" {
+  # Adds subscription to the management group
+  count = length(data.external.lookupByName.result.id) > 0 ? 0 : 1
+  display_name = var.management_group_name
+
+  subscription_ids = [
+    data.external.createSubscription[0].result.id,
+  ]
 }
