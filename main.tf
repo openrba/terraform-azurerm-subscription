@@ -24,6 +24,7 @@ data "external" "createSubscription" {
     subscription_name = var.subscription_name
   }
 
+  # Added dependency to prevent executing on terraform plan
   depends_on [
     data.external.lookupByName,
   ]
