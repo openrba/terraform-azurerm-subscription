@@ -36,3 +36,9 @@ The following arguments are supported.
 The following attributes are exported.
 
 - **id** - The Object ID of the Group
+
+## Diagram
+
+The following is a graphical representation of the module.
+
+![Module Graph](/images/graph.png)
