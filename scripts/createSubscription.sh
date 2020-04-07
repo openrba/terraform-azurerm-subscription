@@ -10,7 +10,7 @@ eval "$(jq -r '@sh "
                     OWNER_ID=\(.owner_id)
                     "')"
 
-# Add the subscription extention
+# Add the subscription extension
 az extension add --name subscription
 
 # Create the subscription
