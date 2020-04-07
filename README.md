@@ -6,7 +6,7 @@ This Terraform module deploys a new subscription in Azure and assigns it to the 
 ## Example Usage
 
 ```hcl
-provider "azuread" {
+provider "azurerm" {
   features {}
 }
 

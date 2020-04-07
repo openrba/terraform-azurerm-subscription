@@ -1,3 +1,7 @@
+provider "azurerm" {
+  features {}
+}
+
 data "external" "lookupByName" {
   # Looks up a subscription by its display name and returns id
   program = ["scripts/lookupByName.sh"]
@@ -19,6 +23,10 @@ data "external" "createSubscription" {
     owner_id = var.owner_id
     subscription_name = var.subscription_name
   }
+
+  depends_on [
+    data.external.lookupByName,
+  ]
 }
 
 resource "azurerm_management_group" "this" {
