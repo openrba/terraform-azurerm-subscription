@@ -1,7 +1,3 @@
-provider "azurerm" {
-  features {}
-}
-
 data "external" "lookupByName" {
   # Looks up a subscription by its display name and returns id
   program = ["scripts/lookupByName.sh"]
