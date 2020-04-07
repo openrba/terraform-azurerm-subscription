@@ -21,7 +21,7 @@ data "external" "createSubscription" {
   }
 
   # Added dependency to prevent executing on terraform plan
-  depends_on [
+  depends_on = [
     data.external.lookupByName,
   ]
 }
